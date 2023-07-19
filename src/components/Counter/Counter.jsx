@@ -11,6 +11,7 @@ export class Counter extends Component {
       prevState => ({ good: (prevState.good += 1) }),
       () => {
         this.countTotalFeedback();
+        this.countPositiveFeedbackPercentage();
       }
     );
   };
@@ -19,6 +20,7 @@ export class Counter extends Component {
       prevState => ({ neutral: (prevState.neutral += 1) }),
       () => {
         this.countTotalFeedback();
+        this.countPositiveFeedbackPercentage();
       }
     );
   };
@@ -27,15 +29,23 @@ export class Counter extends Component {
       prevState => ({ bad: (prevState.bad += 1) }),
       () => {
         this.countTotalFeedback();
+        this.countPositiveFeedbackPercentage();
       }
     );
   };
 
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
-    this.setState(prevState => ({
-      total: (prevState.total = good + neutral + bad),
-    }));
+    this.setState({
+      total: good + neutral + bad,
+    });
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    const { good, neutral, bad } = this.state;
+    this.setState({
+      percent: (good / (good + neutral + bad)) * 100,
+    });
   };
 
   render() {
@@ -59,10 +69,11 @@ export class Counter extends Component {
           <li>
             Total: <span>{0 | this.state.total}</span>
           </li>
+          <li>
+            Positive feedback: <span>{0 | this.state.percent}%</span>
+          </li>
         </ul>
       </div>
     );
   }
 }
-
-// export default Counter;
