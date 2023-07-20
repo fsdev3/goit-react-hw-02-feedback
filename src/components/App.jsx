@@ -1,33 +1,19 @@
 import { Component } from 'react';
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Statistics } from './Statistics/Statistics';
 
-export const App = () => {
-  return <Counter />;
-};
-class Counter extends Component {
+export class App extends Component {
   state = {
     good: 0,
     neutral: 0,
     bad: 0,
   };
-  handleClickGood = () => {
+
+  onLeaveFeedback = feedbackType => {
     this.setState(
-      prevState => ({ good: (prevState.good += 1) }),
-      () => {
-        this.countTotalFeedback();
-      }
-    );
-  };
-  handleClickNeutral = () => {
-    this.setState(
-      prevState => ({ neutral: (prevState.neutral += 1) }),
-      () => {
-        this.countTotalFeedback();
-      }
-    );
-  };
-  handleClickBad = () => {
-    this.setState(
-      prevState => ({ bad: (prevState.bad += 1) }),
+      prevState => ({
+        [feedbackType]: prevState[feedbackType] + 1,
+      }),
       () => {
         this.countTotalFeedback();
       }
@@ -60,33 +46,15 @@ class Counter extends Component {
     const { good, neutral, bad, total, positivePercentage } = this.state;
     return (
       <div>
-        {/* <FeedbackOptions options={state} onLeaveFeedback={o}></FeedbackOptions> */}
-        <h1>Please leave feedback</h1>
-        <button onClick={this.handleClickGood}>Good</button>
-        <button onClick={this.handleClickNeutral}>Neutral</button>
-        <button onClick={this.handleClickBad}>Bad</button>
-        {/* <FeedbackOptions /> */}
-        {/* <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage}> */}
-        <p>Statistics</p>
-        <ul>
-          <li>
-            Good:<span> {good}</span>
-          </li>
-          <li>
-            Neutral:<span> {neutral}</span>
-          </li>
-          <li>
-            Bad:<span> {bad}</span>
-          </li>
-          <li>
-            Total:<span> {0 | total}</span>
-          </li>
-          <li>
-            Positive feedback:
-            <span> {0 | positivePercentage}%</span>
-          </li>
-        </ul>
-        {/* <Statistics /> */}
+        <FeedbackOptions onLeaveFeedback={this.onLeaveFeedback} />
+
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={total}
+          positivePercentage={positivePercentage}
+        />
       </div>
     );
   }
