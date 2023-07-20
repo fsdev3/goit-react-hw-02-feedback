@@ -7,7 +7,7 @@ export const Statistics = ({
 }) => {
   return (
     <>
-      <p>Statistics</p>
+      {/* <p>Statistics</p> */}
       <ul>
         <li>
           Good:<span> {good}</span>

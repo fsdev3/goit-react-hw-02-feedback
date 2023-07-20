@@ -2,6 +2,19 @@ import { Component } from 'react';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
 
+// ternar operator: total ? remove Hide from sect stats, add Hide to Notifi : togle
+
+const Section = ({ title, children }) => {
+  return (
+    <section>
+      <h2>{title}</h2>
+      {children}
+    </section>
+  );
+};
+
+const Notification = () => {};
+
 export class App extends Component {
   state = {
     good: 0,
@@ -46,15 +59,19 @@ export class App extends Component {
     const { good, neutral, bad, total, positivePercentage } = this.state;
     return (
       <div>
-        <FeedbackOptions onLeaveFeedback={this.onLeaveFeedback} />
-
-        <Statistics
-          good={good}
-          neutral={neutral}
-          bad={bad}
-          total={total}
-          positivePercentage={positivePercentage}
-        />
+        <Section title="Please leave feedback">
+          <FeedbackOptions onLeaveFeedback={this.onLeaveFeedback} />
+        </Section>
+        <Section title="Statistics:">
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={total}
+            positivePercentage={positivePercentage}
+          />
+        </Section>
+        <Notification message="There is no feedback"></Notification>
       </div>
     );
   }
