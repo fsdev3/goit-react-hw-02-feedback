@@ -14,7 +14,6 @@ class Counter extends Component {
       prevState => ({ good: (prevState.good += 1) }),
       () => {
         this.countTotalFeedback();
-        this.countPositiveFeedbackPercentage();
       }
     );
   };
@@ -23,7 +22,6 @@ class Counter extends Component {
       prevState => ({ neutral: (prevState.neutral += 1) }),
       () => {
         this.countTotalFeedback();
-        this.countPositiveFeedbackPercentage();
       }
     );
   };
@@ -32,21 +30,30 @@ class Counter extends Component {
       prevState => ({ bad: (prevState.bad += 1) }),
       () => {
         this.countTotalFeedback();
-        this.countPositiveFeedbackPercentage();
       }
     );
   };
 
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
-    const total = good + neutral + bad;
-    this.setState({ total });
+    this.setState(
+      prevState => {
+        return { total: (prevState.total = good + neutral + bad) };
+      },
+      () => {
+        this.countPositiveFeedbackPercentage();
+      }
+    );
   };
 
   countPositiveFeedbackPercentage = () => {
-    const { good, neutral, bad } = this.state;
-    const positivePercentage = (good / (good + neutral + bad)) * 100;
-    this.setState({ positivePercentage });
+    const { good, total } = this.state;
+    this.setState(prevState => {
+      return {
+        positivePercentage: (prevState.positivePercentage =
+          (good / total) * 100),
+      };
+    });
   };
 
   render() {
@@ -59,27 +66,27 @@ class Counter extends Component {
         <button onClick={this.handleClickNeutral}>Neutral</button>
         <button onClick={this.handleClickBad}>Bad</button>
         {/* <FeedbackOptions /> */}
-        <div>
-          <p>Statistics</p>
-          <ul>
-            <li>
-              Good:<span> {good}</span>
-            </li>
-            <li>
-              Neutral:<span> {neutral}</span>
-            </li>
-            <li>
-              Bad:<span> {bad}</span>
-            </li>
-            <li>
-              Total:<span> {0 | total}</span>
-            </li>
-            <li>
-              Positive feedback:
-              <span> {0 | positivePercentage}%</span>
-            </li>
-          </ul>
-        </div>
+        {/* <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage}> */}
+        <p>Statistics</p>
+        <ul>
+          <li>
+            Good:<span> {good}</span>
+          </li>
+          <li>
+            Neutral:<span> {neutral}</span>
+          </li>
+          <li>
+            Bad:<span> {bad}</span>
+          </li>
+          <li>
+            Total:<span> {0 | total}</span>
+          </li>
+          <li>
+            Positive feedback:
+            <span> {0 | positivePercentage}%</span>
+          </li>
+        </ul>
+        {/* <Statistics /> */}
       </div>
     );
   }
