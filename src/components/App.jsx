@@ -1,6 +1,8 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
+import { Container, NotifyMessage } from './App.styled';
 
 // ternar operator: total ? remove Hide from sect stats, add Hide to Notifi : togle
 
@@ -13,7 +15,9 @@ const Section = ({ title, children }) => {
   );
 };
 
-const Notification = () => {};
+const Notification = ({ message }) => {
+  return <NotifyMessage>{message}</NotifyMessage>;
+};
 
 export class App extends Component {
   state = {
@@ -57,22 +61,36 @@ export class App extends Component {
 
   render() {
     const { good, neutral, bad, total, positivePercentage } = this.state;
+    const hasFeedback = total;
     return (
-      <div>
+      <Container>
         <Section title="Please leave feedback">
           <FeedbackOptions onLeaveFeedback={this.onLeaveFeedback} />
         </Section>
         <Section title="Statistics:">
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={total}
-            positivePercentage={positivePercentage}
-          />
+          {hasFeedback ? (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={total}
+              positivePercentage={positivePercentage}
+            />
+          ) : (
+            <Notification message="There is no feedback"></Notification>
+          )}
         </Section>
-        <Notification message="There is no feedback"></Notification>
-      </div>
+      </Container>
     );
   }
 }
+
+App.propTypes = {
+  state: PropTypes.shape({
+    good: PropTypes.number.isRequired,
+    neutral: PropTypes.number.isRequired,
+    bad: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
+    positivePercentage: PropTypes.number.isRequired,
+  }),
+};
