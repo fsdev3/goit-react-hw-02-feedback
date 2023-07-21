@@ -1,4 +1,4 @@
-import { FeedbackButtons } from './FeeedbackOptions.styled';
+import { FeedbackButtons } from './FeedbackOptions.styled';
 
 export const FeedbackOptions = ({ onLeaveFeedback }) => {
   return (

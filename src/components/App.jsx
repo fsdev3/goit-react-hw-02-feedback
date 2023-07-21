@@ -4,8 +4,6 @@ import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
 import { Container, NotifyMessage } from './App.styled';
 
-// ternar operator: total ? remove Hide from sect stats, add Hide to Notifi : togle
-
 const Section = ({ title, children }) => {
   return (
     <section>
