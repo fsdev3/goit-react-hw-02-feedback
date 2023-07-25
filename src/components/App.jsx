@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
-import { Statistics } from './Statistics/Statistics';
 import { Section } from './Section/Section.jsx';
-import { NotifyMessage } from './Message/Message';
+import { Statistics } from './Statistics/Statistics';
+import { Notification } from './Message/Message';
 import { Container } from './App.styled';
 
 export class App extends Component {
@@ -16,22 +16,22 @@ export class App extends Component {
       [state]: prevValue[state] + 1,
     }));
   };
-  countTotal() {
+  countTotalFeedback() {
     let total = Object.values(this.state).reduce((prevValue, number) => {
       return prevValue + number;
     }, 0);
 
     return total;
   }
-  positiveFeedbackPercentage({ good }) {
-    const total = this.countTotal();
+  countPositiveFeedbackPercentage({ good }) {
+    const total = this.countTotalFeedback();
     let positivePercentage = total !== 0 ? Math.round((good / total) * 100) : 0;
     return positivePercentage;
   }
   render() {
     const { good, neutral, bad } = this.state;
-    const total = this.countTotal();
-    const positivePercentage = this.positiveFeedbackPercentage(
+    const total = this.countTotalFeedback();
+    const positivePercentage = this.countPositiveFeedbackPercentage(
       this.state,
       total
     );
@@ -44,9 +44,8 @@ export class App extends Component {
             onLeaveFeedback={this.onLeaveFeedback}
           />
         </Section>
-        <h2>Statistics:</h2>
         {total !== 0 ? (
-          <Section>
+          <Section title="Statistics:">
             <Statistics
               good={good}
               neutral={neutral}
@@ -56,7 +55,7 @@ export class App extends Component {
             />
           </Section>
         ) : (
-          <NotifyMessage message="There is no feedback" />
+          <Notification message="There is no feedback" />
         )}
       </Container>
     );
