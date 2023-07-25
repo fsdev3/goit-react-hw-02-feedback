@@ -3,15 +3,15 @@ import { FeedbackButtons } from './FeedbackOptions.styled';
 
 export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
-    <div>
+    <FeedbackButtons>
       {options.map(el => {
         return (
-          <FeedbackButtons type="button" onClick={() => onLeaveFeedback(el)}>
+          <button type="button" onClick={() => onLeaveFeedback(el)}>
             {el}
-          </FeedbackButtons>
+          </button>
         );
       })}
-    </div>
+    </FeedbackButtons>
   );
 };
 

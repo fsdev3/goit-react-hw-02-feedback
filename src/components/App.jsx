@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
 import { Section } from './Section/Section.jsx';
-import { Notification } from './Message/Message';
+import { NotifyMessage } from './Message/Message';
 import { Container } from './App.styled';
 
 export class App extends Component {
@@ -23,7 +23,7 @@ export class App extends Component {
 
     return total;
   }
-  countPositiveFeedbackPercentage({ good }) {
+  positiveFeedbackPercentage({ good }) {
     const total = this.countTotal();
     let positivePercentage = total !== 0 ? Math.round((good / total) * 100) : 0;
     return positivePercentage;
@@ -31,7 +31,7 @@ export class App extends Component {
   render() {
     const { good, neutral, bad } = this.state;
     const total = this.countTotal();
-    const positivePercentage = this.countPositiveFeedbackPercentage(
+    const positivePercentage = this.positiveFeedbackPercentage(
       this.state,
       total
     );
@@ -44,8 +44,9 @@ export class App extends Component {
             onLeaveFeedback={this.onLeaveFeedback}
           />
         </Section>
+        <h2>Statistics:</h2>
         {total !== 0 ? (
-          <Section title="Statistics">
+          <Section>
             <Statistics
               good={good}
               neutral={neutral}
@@ -55,7 +56,7 @@ export class App extends Component {
             />
           </Section>
         ) : (
-          <Notification message="There is no feedback" />
+          <NotifyMessage message="There is no feedback" />
         )}
       </Container>
     );
