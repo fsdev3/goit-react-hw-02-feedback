@@ -5,6 +5,7 @@ export const FeedbackButtons = styled.div`
   flex-direction: row;
   gap: 8px;
   margin: 20px;
+
   button {
     padding: 4px 12px;
     font-size: 16px;
