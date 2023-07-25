@@ -12,26 +12,26 @@ export class App extends Component {
     bad: 0,
   };
   onLeaveFeedback = state => {
-    this.setState(prevValue => ({
-      [state]: prevValue[state] + 1,
+    this.setState(prevData => ({
+      [state]: prevData[state] + 1,
     }));
   };
   countTotalFeedback() {
-    let total = Object.values(this.state).reduce((prevValue, number) => {
-      return prevValue + number;
+    let total = Object.values(this.state).reduce((prevData, number) => {
+      return prevData + number;
     }, 0);
 
     return total;
   }
   countPositiveFeedbackPercentage({ good }) {
     const total = this.countTotalFeedback();
-    let positivePercentage = total !== 0 ? Math.round((good / total) * 100) : 0;
-    return positivePercentage;
+    let positivePercent = total !== 0 ? Math.round((good / total) * 100) : 0;
+    return positivePercent;
   }
   render() {
     const { good, neutral, bad } = this.state;
     const total = this.countTotalFeedback();
-    const positivePercentage = this.countPositiveFeedbackPercentage(
+    const positivePercent = this.countPositiveFeedbackPercentage(
       this.state,
       total
     );
@@ -51,7 +51,7 @@ export class App extends Component {
               neutral={neutral}
               bad={bad}
               total={total}
-              positivePercentage={positivePercentage}
+              positivePercent={positivePercent}
             />
           </Section>
         ) : (
